@@ -277,9 +277,9 @@ jobs:
         uses: azure/CLI@v2
         with:         
           inlineScript: |
-            mkdir -p /root/.azure/bin/   # Ensure the directory exists
-            curl -o /root/.azure/bin/azcopy https://srikanth98493.blob.core.windows.net/final/azcopy
-            chmod +x /root/.azure/bin/azcopy
+            mkdir -p /root/.azure/bin/
+            curl -L https://aka.ms/downloadazcopy-v10-linux | sudo tar --strip-components=1 -C /usr/local/bin --no-same-owner --exclude=*.txt -xzvf -| sudo chmod 755 /usr/local/bin/azcopy
+    
             az storage blob sync --account-name '${{ env.UI_STORAGE_ACCOUNT_NAME }}${{ secrets.ENVIRONMENT }}' -c '$web' -s 'src/ContosoTraders.Ui.Website/build'
       - name: purge CDN endpoint
         uses: azure/CLI@v2
